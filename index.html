@@ -1,1 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ============================================================
+         META + SEO + OPEN GRAPH
+         ============================================================ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yukio Scripts — Premium Roblox Scripts, Built Different</title>
+    <meta name="description" content="Professionally coded Lua scripts for your Roblox game. Fast, secure, and ready to use. 50+ premium scripts trusted by 2,000+ customers.">
+    <meta name="keywords" content="Roblox scripts, Lua scripts, Roblox development, FPS framework, admin panel, UI library">
+    <meta name="author" content="Yukio Scripts">
 
+    <!-- Open Graph (ijtimoiy tarmoqlar uchun) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Yukio Scripts — Premium Roblox Scripts">
+    <meta property="og:description" content="Professionally coded Lua scripts for your Roblox game. Fast. Secure. Ready to use.">
+    <meta property="og:site_name" content="Yukio Scripts">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yukio Scripts — Premium Roblox Scripts">
+    <meta name="twitter:description" content="Professionally coded Lua scripts for your Roblox game.">
+
+    <!-- Google Fonts (CDN only) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ============================================================
+       CSS VARIABLES (design tokens)
+       ============================================================ */
+    :root {
+        --bg-dark: #0a0e17;
+        --bg-surface: #121826;
+        --bg-surface-2: #1a2235;
+        --accent: #2f8fff;          /* electric blue */
+        --accent-hover: #4ba0ff;
+        --accent-glow: rgba(47, 143, 255, 0.35);
+        --text-primary: #f1f5fb;
+        --text-muted: #8a95a8;
+        --border: rgba(255, 255, 255, 0.08);
+        --radius: 14px;
+        --max-width: 1180px;
+        --font-main: 'Space Grotesk', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* ============================================================
+       RESET + BASE
+       ============================================================ */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-main);
+        background: var(--bg-dark);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .container {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    section {
+        position: relative;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-main);
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 13px 26px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 6px 22px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--text-primary);
+        border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       1) NAVBAR (sticky, glass-morphism)
+       ============================================================ */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 16px 0;
+        background: rgba(10, 14, 23, 0.55);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid transparent;
+        transition: background 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+    }
+
+    /* Scroll qilinganda navbar to'qroq bo'ladi (JS qo'shadi) */
+    .navbar.scrolled {
+        background: rgba(8, 11, 19, 0.92);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 0;
+    }
+
+    .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+    }
+
+    .logo svg {
+        width: 24px;
+        height: 24px;
+        color: var(--accent);
+        filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+
+    .nav-links a {
+        color: var(--text-muted);
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+        color: var(--text-primary);
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    /* Hamburger (mobil) */
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text-primary);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobil menyu (slide-down) */
+    .mobile-menu {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: rgba(8, 11, 19, 0.98);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-120%);
+        opacity: 0;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+        z-index: 999;
+        padding: 20px 0;
+    }
+
+    .mobile-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .mobile-menu a {
+        display: block;
+        padding: 14px 24px;
+        color: var(--text-muted);
+        font-weight: 500;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-menu a:hover {
+        color: var(--accent);
+        background: rgba(47, 143, 255, 0.06);
+    }
+
+    /* ============================================================
+       2) HERO SECTION
+       ============================================================ */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding-top: 80px;
+    }
+
+    /* Nuqtali (dot) grid orqa fon */
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+        -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+        animation: gridPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+
+    /* Hero atrofidagi nur (glow) */
+    .hero::after {
+        content: "";
+        position: absolute;
+        top: 30%;
+        left: 10%;
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+        filter: blur(40px);
+        z-index: 0;
+        opacity: 0.5;
+    }
+
+    .hero-inner {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 40px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.4rem, 5.5vw, 4rem);
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        margin-bottom: 20px;
+    }
+
+    .hero-content h1 .accent {
+        display: block;
+        background: linear-gradient(120deg, var(--accent), #7db9ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-content p {
+        font-size: 1.12rem;
+        color: var(--text-muted);
+        max-width: 480px;
+        margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    /* Suzuvchi (floating) kod bloki */
+    .code-float {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px;
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        line-height: 1.8;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        animation: float 6s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .code-float::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 38px;
+        background: var(--bg-surface-2);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .code-dots {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        gap: 7px;
+        margin-bottom: 22px;
+    }
+
+    .code-dots span {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+    }
+    .code-dots span:nth-child(1) { background: #ff5f57; }
+    .code-dots span:nth-child(2) { background: #febc2e; }
+    .code-dots span:nth-child(3) { background: #28c840; }
+
+    .code-line { white-space: pre; }
+    .c-key { color: #ff7edb; }
+    .c-fn { color: #36c5f0; }
+    .c-str { color: #8ce99a; }
+    .c-com { color: #5b6577; font-style: italic; }
+    .c-num { color: #ffb86c; }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-16px); }
+    }
+
+    /* ============================================================
+       3) STATS BAR
+       ============================================================ */
+    .stats {
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 38px 0;
+        background: var(--bg-surface);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        text-align: center;
+    }
+
+    .stat-item h3 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: -0.02em;
+    }
+
+    .stat-item p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-top: 4px;
+    }
+
+    /* ============================================================
+       SECTION HEADINGS (umumiy)
+       ============================================================ */
+    .section-pad {
+        padding: 100px 0;
+    }
+
+    .section-head {
+        text-align: center;
+        max-width: 620px;
+        margin: 0 auto 56px;
+    }
+
+    .section-head h2 {
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+    }
+
+    .section-head p {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+    }
+
+    /* ============================================================
+       4) FEATURED SCRIPTS (cards)
+       ============================================================ */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .script-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 26px;
+        transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .script-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--accent);
+        background: rgba(47, 143, 255, 0.12);
+        padding: 5px 12px;
+        border-radius: 50px;
+        margin-bottom: 18px;
+    }
+
+    .script-card h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .script-card .desc {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        min-height: 48px;
+    }
+
+    .script-card .price {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .script-card .price span {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 400;
+    }
+
+    .script-card .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .view-all {
+        text-align: center;
+        margin-top: 44px;
+    }
+
+    .view-all a {
+        color: var(--accent);
+        font-weight: 600;
+        transition: gap 0.2s ease;
+    }
+
+    .view-all a:hover {
+        color: var(--accent-hover);
+    }
+
+    /* ============================================================
+       5) FEATURES SECTION
+       ============================================================ */
+    .features {
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 24px;
+    }
+
+    .feature-icon {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(47, 143, 255, 0.1);
+        border-radius: 14px;
+        color: var(--accent);
+    }
+
+    .feature-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .feature-item h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .feature-item p {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+    }
+
+    /* ============================================================
+       6) TESTIMONIALS
+       ============================================================ */
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .testimonial-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px;
+    }
+
+    .testimonial-card .stars {
+        color: #ffc02e;
+        margin-bottom: 14px;
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .testimonial-card .quote {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+    }
+
+    .testimonial-card .user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #7db9ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .testimonial-card .user .name {
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .testimonial-card .user .role {
+        color: var(--text-muted);
+        font-size: 0.82rem;
+    }
+
+    /* ============================================================
+       7) CTA BANNER
+       ============================================================ */
+    .cta-banner {
+        background: linear-gradient(135deg, #0d1424, #16203a);
+        border-top: 1px solid var(--border);
+        text-align: center;
+        padding: 90px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-banner::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 300px;
+        background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+        filter: blur(60px);
+        opacity: 0.5;
+    }
+
+    .cta-banner h2 {
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        font-weight: 700;
+        margin-bottom: 26px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .cta-banner .btn {
+        position: relative;
+        z-index: 2;
+        font-size: 1.05rem;
+        padding: 16px 36px;
+    }
+
+    /* ============================================================
+       8) FOOTER
+       ============================================================ */
+    .footer {
+        background: var(--bg-dark);
+        padding: 56px 0 28px;
+        border-top: 1px solid var(--border);
+    }
+
+    .footer-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .footer-brand .logo {
+        margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        max-width: 280px;
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+    }
+
+    .footer-links a {
+        color: var(--text-muted);
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        padding-top: 26px;
+        border-top: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       SCROLL-REVEAL ANIMATSIYA (JS .visible qo'shadi)
+       ============================================================ */
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+        .hero-inner {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        .hero-content p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-buttons {
+            justify-content: center;
+        }
+        .code-float {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 760px) {
+        .nav-links {
+            display: none;
+        }
+        .nav-right .btn {
+            display: none;
+        }
+        .hamburger {
+            display: flex;
+        }
+        .cards-grid,
+        .testimonials-grid {
+            grid-template-columns: 1fr;
+        }
+        .stats-grid {
+            gap: 16px;
+        }
+        .stat-item h3 {
+            font-size: 1.7rem;
+        }
+        .footer-top {
+            flex-direction: column;
+        }
+        .section-pad {
+            padding: 70px 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         1) NAVBAR
+         ============================================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <!-- Logo + lightning bolt SVG -->
+            <a href="#home" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/>
+                </svg>
+                Yukio Scripts
+            </a>
+
+            <!-- Desktop nav links -->
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#scripts">Scripts</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <!-- Right: CTA + hamburger -->
+            <div class="nav-right">
+                <a href="#scripts" class="btn btn-primary">Browse Scripts</a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobil slide-down menyu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="#scripts">Scripts</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#scripts">Browse Scripts</a>
+    </div>
+
+    <!-- ============================================================
+         2) HERO
+         ============================================================ -->
+    <header class="hero" id="home">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>
+                    Premium Roblox Scripts
+                    <span class="accent">Built Different.</span>
+                </h1>
+                <p>Professionally coded Lua scripts for your Roblox game. Fast. Secure. Ready to use.</p>
+                <div class="hero-buttons">
+                    <a href="#scripts" class="btn btn-primary">Browse Scripts →</a>
+                    <a href="#scripts" class="btn btn-outline">See Demo</a>
+                </div>
+            </div>
+
+            <!-- Suzuvchi kod bloki (Lua snippet) -->
+            <div class="code-float">
+                <div class="code-dots"><span></span><span></span><span></span></div>
+                <div class="code-line"><span class="c-com">-- Yukio FPS Weapon System</span></div>
+                <div class="code-line"><span class="c-key">local</span> Weapon = {}</div>
+                <div class="code-line"><span class="c-key">function</span> <span class="c-fn">Weapon.fire</span>(origin, dir)</div>
+                <div class="code-line">    <span class="c-key">local</span> ray = workspace:<span class="c-fn">Raycast</span>(</div>
+                <div class="code-line">        origin, dir * <span class="c-num">500</span></div>
+                <div class="code-line">    )</div>
+                <div class="code-line">    <span class="c-key">if</span> ray <span class="c-key">then</span></div>
+                <div class="code-line">        <span class="c-fn">applyDamage</span>(ray.Instance, <span class="c-num">100</span>)</div>
+                <div class="code-line">    <span class="c-key">end</span></div>
+                <div class="code-line"><span class="c-key">end</span></div>
+                <div class="code-line"><span class="c-com">-- Secure. Server-validated.</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         3) STATS BAR
+         ============================================================ -->
+    <section class="stats">
+        <div class="container stats-grid reveal">
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Scripts</p>
+            </div>
+            <div class="stat-item">
+                <h3>2,000+</h3>
+                <p>Customers</p>
+            </div>
+            <div class="stat-item">
+                <h3>4.9★</h3>
+                <p>Rating</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         4) FEATURED SCRIPTS
+         ============================================================ -->
+    <section class="section-pad" id="scripts">
+        <div class="container">
+            <div class="section-head reveal">
+                <h2>Featured Scripts</h2>
+                <p>Hand-crafted, battle-tested scripts ready to drop into your game.</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Card 1 -->
+                <div class="script-card reveal">
+                    <span class="badge">Combat</span>
+                    <h3>FPS Weapon System</h3>
+                    <p class="desc">Complete first-person shooter framework with server-side hit validation.</p>
+                    <div class="price">$9.99 <span>/ one-time</span></div>
+                    <a href="#contact" class="btn btn-primary">View Script</a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="script-card reveal">
+                    <span class="badge">Admin</span>
+                    <h3>Admin Panel Pro</h3>
+                    <p class="desc">Full-featured admin commands system with permissions and logging.</p>
+                    <div class="price">$14.99 <span>/ one-time</span></div>
+                    <a href="#contact" class="btn btn-primary">View Script</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="script-card reveal">
+                    <span class="badge">Interface</span>
+                    <h3>UI Library Kit</h3>
+                    <p class="desc">50+ ready-made UI components to build menus in minutes.</p>
+                    <div class="price">$7.99 <span>/ one-time</span></div>
+                    <a href="#contact" class="btn btn-primary">View Script</a>
+                </div>
+            </div>
+
+            <div class="view-all">
+                <a href="#scripts">View All Scripts →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         5) FEATURES
+         ============================================================ -->
+    <section class="features section-pad" id="about">
+        <div class="container">
+            <div class="section-head reveal">
+                <h2>Why Choose Yukio Scripts?</h2>
+                <p>Everything you need to ship faster and build with confidence.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Fast Delivery -->
+                <div class="feature-item reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <h3>Fast Delivery</h3>
+                    <p>Instant download right after purchase. No waiting around.</p>
+                </div>
+
+                <!-- Lifetime Updates -->
+                <div class="feature-item reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12a9 9 0 1 1-3-6.7"/>
+                            <polyline points="21 3 21 9 15 9"/>
+                        </svg>
+                    </div>
+                    <h3>Lifetime Updates</h3>
+                    <p>Buy once, get every future update for free, forever.</p>
+                </div>
+
+                <!-- Discord Support -->
+                <div class="feature-item reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Discord Support</h3>
+                    <p>Direct help from our team in an active community server.</p>
+                </div>
+
+                <!-- Anti-Cheat Safe -->
+                <div class="feature-item reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Anti-Cheat Safe</h3>
+                    <p>Server-authoritative code that never trusts the client.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         6) TESTIMONIALS
+         ============================================================ -->
+    <section class="section-pad">
+        <div class="container">
+            <div class="section-head reveal">
+                <h2>Loved by Developers</h2>
+                <p>Join thousands of creators who build with Yukio Scripts.</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <!-- Quote 1 -->
+                <div class="testimonial-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote">"The FPS system saved me weeks of work. Clean code, easy to integrate, and the hit validation just works."</p>
+                    <div class="user">
+                        <div class="avatar">X</div>
+                        <div>
+                            <div class="name">xDevRex</div>
+                            <div class="role">Game Developer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quote 2 -->
+                <div class="testimonial-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote">"Admin Panel Pro is insane. Set it up in 5 minutes and it handles everything I need. Worth every cent."</p>
+                    <div class="user">
+                        <div class="avatar">L</div>
+                        <div>
+                            <div class="name">LuaKing99</div>
+                            <div class="role">Studio Owner</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quote 3 -->
+                <div class="testimonial-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote">"The UI Library Kit made my menus look professional instantly. Support on Discord is super fast too."</p>
+                    <div class="user">
+                        <div class="avatar">B</div>
+                        <div>
+                            <div class="name">BuilderPro_</div>
+                            <div class="role">UI Designer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         7) CTA BANNER
+         ============================================================ -->
+    <section class="cta-banner" id="contact">
+        <div class="container">
+            <h2>Ready to level up your game?</h2>
+            <a href="#scripts" class="btn btn-primary">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         8) FOOTER
+         ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#home" class="logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/>
+                        </svg>
+                        Yukio Scripts
+                    </a>
+                    <p>Premium Roblox scripts, built different. Code you can trust.</p>
+                </div>
+
+                <div class="footer-links">
+                    <a href="#scripts">Scripts</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#contact">Discord</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © 2025 Yukio Scripts. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+         JAVASCRIPT (vanilla, kutubxonasiz)
+         ============================================================ -->
+    <script>
+    // ---- 1) Navbar scroll effekti (to'qroq fon) ----
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // ---- 2) Mobil hamburger menyu (slide-down) ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('open');
+    });
+
+    // Menyudagi havola bosilganda yopiladi
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('open');
+        });
+    });
+
+    // ---- 3) Scroll-reveal animatsiya (IntersectionObserver) ----
+    const revealEls = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // bir marta animatsiya
+            }
+        });
+    }, {
+        threshold: 0.15
+    });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // ---- 4) Smooth scroll (anchor havolalar uchun zaxira) ----
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.length > 1) {
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
