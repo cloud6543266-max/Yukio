@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ============================================================
+         META + SEO + OPEN GRAPH
+         ============================================================ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Scripts — Yukio Scripts</title>
+    <meta name="description" content="Browse the full collection of premium Roblox Lua scripts. FPS systems, admin panels, UI kits, game frameworks and more.">
+    <meta name="keywords" content="Roblox scripts store, Lua scripts, FPS framework, admin panel, UI library, game systems">
+    <meta name="author" content="Yukio Scripts">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="All Scripts — Yukio Scripts">
+    <meta property="og:description" content="Browse the full collection of premium Roblox scripts.">
+    <meta property="og:site_name" content="Yukio Scripts">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="All Scripts — Yukio Scripts">
+
+    <!-- Google Fonts (CDN only) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ============================================================
+       CSS VARIABLES (index.html bilan bir xil)
+       ============================================================ */
+    :root {
+        --bg-dark: #0a0e17;
+        --bg-surface: #121826;
+        --bg-surface-2: #1a2235;
+        --accent: #2f8fff;
+        --accent-hover: #4ba0ff;
+        --accent-glow: rgba(47, 143, 255, 0.35);
+        --text-primary: #f1f5fb;
+        --text-muted: #8a95a8;
+        --border: rgba(255, 255, 255, 0.08);
+        --radius: 14px;
+        --max-width: 1180px;
+        --font-main: 'Space Grotesk', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+
+        /* Kategoriya ranglari */
+        --cat-fps: #ff6b6b;
+        --cat-ui: #c084fc;
+        --cat-admin: #fbbf24;
+        --cat-utilities: #34d399;
+        --cat-game: #38bdf8;
+    }
+
+    /* ============================================================
+       RESET + BASE
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: var(--font-main);
+        background: var(--bg-dark);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    .container {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: var(--font-main);
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 13px 26px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 6px 22px var(--accent-glow);
+    }
+    .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--text-primary);
+        border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       1) NAVBAR (index.html bilan bir xil)
+       ============================================================ */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 16px 0;
+        background: rgba(10, 14, 23, 0.55);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid transparent;
+        transition: background 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+    }
+    .navbar.scrolled {
+        background: rgba(8, 11, 19, 0.92);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 0;
+    }
+    .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+    }
+    .logo svg {
+        width: 24px;
+        height: 24px;
+        color: var(--accent);
+        filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+    .nav-links a {
+        color: var(--text-muted);
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.2s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--text-primary);
+    }
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+    }
+    .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text-primary);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: rgba(8, 11, 19, 0.98);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-120%);
+        opacity: 0;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+        z-index: 999;
+        padding: 20px 0;
+    }
+    .mobile-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .mobile-menu a {
+        display: block;
+        padding: 14px 24px;
+        color: var(--text-muted);
+        font-weight: 500;
+        border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a:hover {
+        color: var(--accent);
+        background: rgba(47, 143, 255, 0.06);
+    }
+
+    /* ============================================================
+       2) PAGE HEADER
+       ============================================================ */
+    .page-header {
+        padding: 150px 0 50px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .page-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 100%);
+        -webkit-mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 100%);
+    }
+    .page-header > * { position: relative; z-index: 2; }
+
+    .page-header h1 {
+        font-size: clamp(2.2rem, 5vw, 3.4rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-bottom: 14px;
+    }
+    .page-header p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 18px;
+    }
+    .count-badge {
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--accent);
+        background: rgba(47, 143, 255, 0.12);
+        padding: 7px 16px;
+        border-radius: 50px;
+    }
+
+    /* ============================================================
+       3) FILTER BAR
+       ============================================================ */
+    .filter-bar {
+        padding: 20px 0 40px;
+    }
+    .filter-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .category-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .cat-btn {
+        font-family: var(--font-main);
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        padding: 9px 18px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .cat-btn:hover {
+        color: var(--text-primary);
+        border-color: var(--accent);
+    }
+    .cat-btn.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+    }
+
+    .filter-tools {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* Qidiruv input */
+    .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .search-box svg {
+        position: absolute;
+        left: 14px;
+        width: 16px;
+        height: 16px;
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    .search-box input {
+        font-family: var(--font-main);
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        padding: 10px 18px 10px 40px;
+        width: 220px;
+        outline: none;
+        transition: border-color 0.2s ease;
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box input:focus { border-color: var(--accent); }
+
+    /* Sort dropdown */
+    .sort-select {
+        font-family: var(--font-main);
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        padding: 10px 18px;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.2s ease;
+    }
+    .sort-select:focus { border-color: var(--accent); }
+    .sort-select option { background: var(--bg-surface); color: var(--text-primary); }
+
+    /* ============================================================
+       4) SCRIPTS GRID
+       ============================================================ */
+    .scripts-section { padding-bottom: 60px; }
+
+    .scripts-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .script-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .script-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--accent-glow);
+    }
+
+    /* Kategoriya badge (rangli) */
+    .badge {
+        display: inline-block;
+        width: fit-content;
+        font-size: 0.74rem;
+        font-weight: 600;
+        padding: 5px 12px;
+        border-radius: 50px;
+        margin-bottom: 16px;
+    }
+    .badge[data-cat="FPS"] { color: var(--cat-fps); background: rgba(255, 107, 107, 0.12); }
+    .badge[data-cat="UI"] { color: var(--cat-ui); background: rgba(192, 132, 252, 0.12); }
+    .badge[data-cat="Admin"] { color: var(--cat-admin); background: rgba(251, 191, 36, 0.12); }
+    .badge[data-cat="Utilities"] { color: var(--cat-utilities); background: rgba(52, 211, 153, 0.12); }
+    .badge[data-cat="Game Systems"] { color: var(--cat-game); background: rgba(56, 189, 248, 0.12); }
+
+    .script-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    .script-card .desc {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+    .script-card .price {
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 18px;
+    }
+    .card-actions {
+        display: flex;
+        gap: 10px;
+    }
+    .card-actions .btn {
+        flex: 1;
+        padding: 11px 14px;
+        font-size: 0.88rem;
+    }
+
+    /* Qidiruvda hech narsa topilmaganda */
+    .no-results {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        padding: 50px 0;
+        display: none;
+    }
+    .no-results.show { display: block; }
+
+    /* ============================================================
+       5) PAGINATION
+       ============================================================ */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 20px 0 90px;
+    }
+    .pagination button {
+        font-family: var(--font-main);
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        min-width: 42px;
+        height: 42px;
+        padding: 0 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .pagination button:hover:not(:disabled) {
+        color: var(--text-primary);
+        border-color: var(--accent);
+    }
+    .pagination button.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+    }
+    .pagination button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    /* ============================================================
+       6) FOOTER (index.html bilan bir xil)
+       ============================================================ */
+    .footer {
+        background: var(--bg-dark);
+        padding: 56px 0 28px;
+        border-top: 1px solid var(--border);
+    }
+    .footer-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+    .footer-brand .logo { margin-bottom: 12px; }
+    .footer-brand p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        max-width: 280px;
+    }
+    .footer-links {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+    }
+    .footer-links a {
+        color: var(--text-muted);
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        padding-top: 26px;
+        border-top: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+        .scripts-grid { grid-template-columns: repeat(2, 1fr); }
+        .filter-inner { flex-direction: column; align-items: stretch; }
+        .filter-tools { justify-content: space-between; }
+        .search-box input { width: 100%; }
+        .search-box { flex: 1; }
+    }
+
+    @media (max-width: 760px) {
+        .nav-links { display: none; }
+        .nav-right .btn { display: none; }
+        .hamburger { display: flex; }
+        .footer-top { flex-direction: column; }
+    }
+
+    @media (max-width: 600px) {
+        .scripts-grid { grid-template-columns: 1fr; }
+        .filter-tools { flex-direction: column; align-items: stretch; }
+        .sort-select { width: 100%; }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         1) NAVBAR
+         ============================================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/>
+                </svg>
+                Yukio Scripts
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="scripts.html" class="active">Scripts</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-right">
+                <a href="scripts.html" class="btn btn-primary">Browse Scripts</a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="scripts.html">Scripts</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="scripts.html">Browse Scripts</a>
+    </div>
+
+    <!-- ============================================================
+         2) PAGE HEADER
+         ============================================================ -->
+    <header class="page-header">
+        <div class="container">
+            <h1>All Scripts</h1>
+            <p>Browse our full collection of premium Roblox scripts</p>
+            <span class="count-badge">54 scripts available</span>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         3) FILTER BAR
+         ============================================================ -->
+    <section class="filter-bar">
+        <div class="container filter-inner">
+            <!-- Kategoriya tugmalari -->
+            <div class="category-filters" id="categoryFilters">
+                <button class="cat-btn active" data-filter="All">All</button>
+                <button class="cat-btn" data-filter="FPS">FPS</button>
+                <button class="cat-btn" data-filter="UI">UI</button>
+                <button class="cat-btn" data-filter="Admin">Admin</button>
+                <button class="cat-btn" data-filter="Utilities">Utilities</button>
+                <button class="cat-btn" data-filter="Game Systems">Game Systems</button>
+            </div>
+
+            <!-- Qidiruv + sort -->
+            <div class="filter-tools">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search scripts...">
+                </div>
+
+                <select class="sort-select" id="sortSelect">
+                    <option value="featured">Sort by: Featured</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="newest">Newest</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         4) SCRIPTS GRID (9 cards)
+         ============================================================ -->
+    <section class="scripts-section">
+        <div class="container">
+            <div class="scripts-grid" id="scriptsGrid">
+
+                <!-- 1. FPS Weapon System -->
+                <div class="script-card" data-category="FPS" data-price="9.99" data-order="1">
+                    <span class="badge" data-cat="FPS">FPS</span>
+                    <h3>FPS Weapon System</h3>
+                    <p class="desc">Complete first-person shooter framework with server-side hit validation.</p>
+                    <div class="price">$9.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 2. Admin Panel Pro -->
+                <div class="script-card" data-category="Admin" data-price="14.99" data-order="2">
+                    <span class="badge" data-cat="Admin">Admin</span>
+                    <h3>Admin Panel Pro</h3>
+                    <p class="desc">Full-featured admin commands system with permissions and logging.</p>
+                    <div class="price">$14.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 3. UI Library Kit -->
+                <div class="script-card" data-category="UI" data-price="7.99" data-order="3">
+                    <span class="badge" data-cat="UI">UI</span>
+                    <h3>UI Library Kit</h3>
+                    <p class="desc">50+ ready-made UI components to build polished menus in minutes.</p>
+                    <div class="price">$7.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 4. Inventory System -->
+                <div class="script-card" data-category="Game Systems" data-price="12.99" data-order="4">
+                    <span class="badge" data-cat="Game Systems">Game Systems</span>
+                    <h3>Inventory System</h3>
+                    <p class="desc">Drag-and-drop inventory with stacking, hotbar and saving support.</p>
+                    <div class="price">$12.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 5. NPC AI Framework -->
+                <div class="script-card" data-category="Game Systems" data-price="19.99" data-order="5">
+                    <span class="badge" data-cat="Game Systems">Game Systems</span>
+                    <h3>NPC AI Framework</h3>
+                    <p class="desc">Pathfinding, states and combat AI for smart, lifelike NPCs.</p>
+                    <div class="price">$19.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 6. Leaderboard Pro -->
+                <div class="script-card" data-category="UI" data-price="5.99" data-order="6">
+                    <span class="badge" data-cat="UI">UI</span>
+                    <h3>Leaderboard Pro</h3>
+                    <p class="desc">Animated global and round leaderboards with custom styling.</p>
+                    <div class="price">$5.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 7. Anti-Cheat Module -->
+                <div class="script-card" data-category="Utilities" data-price="11.99" data-order="7">
+                    <span class="badge" data-cat="Utilities">Utilities</span>
+                    <h3>Anti-Cheat Module</h3>
+                    <p class="desc">Server-side checks for speed, teleport and exploit detection.</p>
+                    <div class="price">$11.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 8. Dialogue System -->
+                <div class="script-card" data-category="Game Systems" data-price="8.99" data-order="8">
+                    <span class="badge" data-cat="Game Systems">Game Systems</span>
+                    <h3>Dialogue System</h3>
+                    <p class="desc">Branching NPC dialogue with typewriter text and choices.</p>
+                    <div class="price">$8.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+                <!-- 9. Datastore Manager -->
+                <div class="script-card" data-category="Utilities" data-price="6.99" data-order="9">
+                    <span class="badge" data-cat="Utilities">Utilities</span>
+                    <h3>Datastore Manager</h3>
+                    <p class="desc">Reliable data saving with auto-retry, sessions and backups.</p>
+                    <div class="price">$6.99</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-outline">View Details</a>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Qidiruv natijasi yo'q xabari -->
+            <div class="no-results" id="noResults">
+                No scripts match your search. Try a different keyword or category.
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         5) PAGINATION
+         ============================================================ -->
+    <nav class="pagination" aria-label="Pagination">
+        <button id="prevBtn" disabled>← Previous</button>
+        <button class="page-num active" data-page="1">1</button>
+        <button class="page-num" data-page="2">2</button>
+        <button class="page-num" data-page="3">3</button>
+        <button id="nextBtn">Next →</button>
+    </nav>
+
+    <!-- ============================================================
+         6) FOOTER
+         ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/>
+                        </svg>
+                        Yukio Scripts
+                    </a>
+                    <p>Premium Roblox scripts, built different. Code you can trust.</p>
+                </div>
+
+                <div class="footer-links">
+                    <a href="scripts.html">Scripts</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#contact">Contact</a>
+                    <a href="index.html#contact">Discord</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © 2025 Yukio Scripts. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+         JAVASCRIPT (vanilla)
+         ============================================================ -->
+    <script>
+    // ---- 1) Navbar scroll effekti ----
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ---- 2) Mobil hamburger menyu ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('open');
+        });
+    });
+
+    // ---- 3) Filtrlash + qidiruv + saralash ----
+    const grid = document.getElementById('scriptsGrid');
+    const cards = Array.from(grid.querySelectorAll('.script-card'));
+    const catButtons = document.querySelectorAll('.cat-btn');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const noResults = document.getElementById('noResults');
+
+    let activeCategory = 'All';
+
+    // Joriy filtr + qidiruvga ko'ra kartalarni ko'rsatish/yashirish
+    function applyFilters() {
+        const query = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const desc = card.querySelector('.desc').textContent.toLowerCase();
+
+            const matchCategory = (activeCategory === 'All') || (category === activeCategory);
+            const matchSearch = (query === '') || title.includes(query) || desc.includes(query);
+
+            if (matchCategory && matchSearch) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Natija yo'q bo'lsa xabar ko'rsatamiz
+        noResults.classList.toggle('show', visibleCount === 0);
+    }
+
+    // Kategoriya tugmalari
+    catButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            catButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.getAttribute('data-filter');
+            applyFilters();
+        });
+    });
+
+    // Qidiruv (real vaqtda)
+    searchInput.addEventListener('input', applyFilters);
+
+    // Saralash
+    function applySort() {
+        const mode = sortSelect.value;
+        const sorted = [...cards].sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price'));
+            const priceB = parseFloat(b.getAttribute('data-price'));
+            const orderA = parseInt(a.getAttribute('data-order'));
+            const orderB = parseInt(b.getAttribute('data-order'));
+
+            if (mode === 'price-low') return priceA - priceB;
+            if (mode === 'price-high') return priceB - priceA;
+            if (mode === 'newest') return orderB - orderA;      // katta order = yangiroq
+            return orderA - orderB;                              // featured = original tartib
+        });
+
+        // DOM'ni qayta tartiblaymiz
+        sorted.forEach(card => grid.appendChild(card));
+    }
+
+    sortSelect.addEventListener('change', () => {
+        applySort();
+        applyFilters();
+    });
+
+    // ---- 4) Pagination (demo: aktiv tugmani belgilash) ----
+    const pageButtons = document.querySelectorAll('.page-num');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentPage = 1;
+    const totalPages = 3;
+
+    function updatePagination() {
+        pageButtons.forEach(btn => {
+            btn.classList.toggle('active', parseInt(btn.getAttribute('data-page')) === currentPage);
+        });
+        prevBtn.disabled = (currentPage === 1);
+        nextBtn.disabled = (currentPage === totalPages);
+    }
+
+    pageButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentPage = parseInt(btn.getAttribute('data-page'));
+            updatePagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) { currentPage--; updatePagination(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) { currentPage++; updatePagination(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+    </script>
+
+</body>
+</html>
